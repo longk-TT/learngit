@@ -1,0 +1,74 @@
+/*定义变量*/
+$height:50px;
+$pdvalue:10px;
+$bd-color:#999;
+$bd-height:1px;
+$bg-color:#eee;
+
+/*重置css样式*/
+@mixin resetcss{
+	padding: 0;
+	padding:0;
+}
+
+/*clear float*/
+@mixin clearFix{
+	content:"";
+	display: table;
+	clear: both;
+}
+
+/*innerstyle*/
+@mixin innerStyle{
+	background-color:$bg-color;
+	height:$height;
+	border:$bd-height solid $bd-color;
+}
+
+/* outerstyle*/
+@mixin outerStyle{
+	padding:$pdvalue;
+	float:left;
+	box-sizing:border-box;
+}
+
+/* generate grid*/
+@mixin generateGrid($scr-wid){
+	@if $scr-wid{
+		@for $i from 1 through 12{
+			.col-md-#{$i}{
+				width:(100% / 12 * $i);
+			}
+		}
+	}@else{
+		@for $i from 1 through 12{
+			.col-sm-#{$i}{
+				width:(100% / 12 * $i);
+			}
+		}
+	}
+}
+/* style part */
+html,body{
+	@include resetcss;
+}
+.wrapper{
+	box-sizing:border-box;
+	padding:10px;
+	width:100%;
+}
+.wrpper:before,.wrapper:after{
+	@include clearFix;
+}
+.outer{
+	@include outerStyle;
+}
+.inner{
+	@include innerStyle;
+}
+@media (min-width: 769px){
+	@include generateGrid(true);
+}
+@media (max-width: 768px){
+	@include generateGrid(false);
+}
